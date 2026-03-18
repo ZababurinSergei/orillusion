@@ -321,6 +321,11 @@ export class RenderShaderPass extends ShaderPassBase {
      * @param renderPassState 
      */
     public genRenderPipeline(geometry: GeometryBase, renderPassState: RendererPassState) {
+        console.log('/orillusion/src/gfx/graphics/webGpu/shader/RenderShaderPass.ts')
+        console.log(`🎨 [${this.vsName}|${this.fsName}] genRenderPipeline called. PassType: ${this.passType}`);
+        console.log(`   - Geometry exists: ${!!geometry}`);
+        console.log(`   - RenderPassState exists: ${!!renderPassState}`);
+        console.log(`   - Current shaderVariant: ${this.shaderVariant}`);
         let layouts = this.createGroupLayouts();
         this.createPipeline(geometry, renderPassState, layouts);
     }
@@ -345,6 +350,12 @@ export class RenderShaderPass extends ShaderPassBase {
      * @param noticeFun 
      */
     public apply(geometry: GeometryBase, rendererPassState: RendererPassState, noticeFun?: Function) {
+        console.log('/orillusion/src/gfx/graphics/webGpu/shader/RenderShaderPass.ts')
+        console.log(`🔄 [${this.vsName}|${this.fsName}] apply() called.`);
+        console.log(`   - Pipeline exists before: ${!!this.pipeline}`);
+        console.log(`   - geometry: ${geometry?.name || 'N/A'}`);
+        console.log(`   - rendererPassState: ${rendererPassState?.label || 'N/A'}`);
+        console.log(`   - _valueChange: ${this._valueChange}, _shaderChange: ${this._shaderChange}`);
         this.materialDataUniformBuffer.apply();
 
         if (this._textureChange && this._textureGroup != -1) {

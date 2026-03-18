@@ -102,6 +102,14 @@ export class EntityCollect {
     }
 
     public addRenderNode(root: Scene3D, renderNode: RenderNode) {
+
+        console.log(`/orillusion/src/gfx/renderJob/collect/EntityCollect.ts`);
+        console.log(`➕ Adding render node: ${renderNode.name || renderNode.instanceID} to scene ${root?.name}`);
+        console.log(`   - renderOrder: ${renderNode.renderOrder}`);
+        console.log(`   - hasMask(Sky): ${renderNode.hasMask(RendererMask.Sky)}`);
+        console.log(`   - hasMask(Reflection): ${renderNode.hasMask(RendererMask.Reflection)}`);
+        console.log(`   - hasMask(Graphic3D): ${renderNode.hasMask(RendererMask.Graphic3D)}`);
+        console.log(`   - renderLayer: ${renderNode.renderLayer}`);
         if (!root) return;
         let isTransparent: boolean = renderNode.renderOrder >= 3000;
         if (renderNode.hasMask(RendererMask.Sky)) {
@@ -287,6 +295,7 @@ export class EntityCollect {
 
 
     public getRenderNodes(scene: Scene3D, camera: Camera3D): CollectInfo {
+        console.log(`📊 EntityCollect.getRenderNodes for scene ${scene?.name}, camera ${camera?.name}`);
         this.autoSortRenderNodes(scene);
         this._collectInfo.clean();
         this._collectInfo.sky = this.sky;
@@ -297,13 +306,16 @@ export class EntityCollect {
         } else {
             let list2 = this._op_RenderNodes.get(scene);
             if (list2) {
+                console.log(`   Found ${list2.length} opaque nodes`);
                 this._collectInfo.opaqueList = list2.concat();
             }
             let list5 = this._tr_RenderNodes.get(scene);
             if (list5) {
+                console.log(`   Found ${list5.length} transparent nodes`);
                 this._collectInfo.transparentList = list5.concat();
             }
         }
+        console.log(`   Total in collectInfo: opaque=${this._collectInfo.opaqueList.length}, transparent=${this._collectInfo.transparentList.length}`);
         return this._collectInfo;
     }
 

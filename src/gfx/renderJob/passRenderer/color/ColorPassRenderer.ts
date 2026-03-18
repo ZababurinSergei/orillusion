@@ -111,6 +111,7 @@ export class ColorPassRenderer extends RendererBase {
     }
 
     public drawNodes(view: View3D, renderContext: RenderContext, nodes: RenderNode[], occlusionSystem: OcclusionSystem, clusterLightingBuffer: ClusterLightingBuffer) {
+        console.log(`🎨 ColorPassRenderer.drawNodes called with ${nodes.length} nodes`);
         let viewRenderList = EntityCollect.instance.getRenderShaderCollect(view);
         if (viewRenderList) {
             for (const renderList of viewRenderList) {
@@ -128,6 +129,11 @@ export class ColorPassRenderer extends RendererBase {
                 let renderNode = nodes[i];
                 // if (!occlusionSystem.renderCommitTesting(view.camera, renderNode))
                 //     continue;
+                console.log('/orillusion/src/gfx/renderJob/passRenderer/color/ColorPassRenderer.ts')
+                console.log(`   🔍 Attempting to render node ${i}: ${renderNode.name || renderNode.instanceID}`);
+                console.log(`      - transform.enable: ${renderNode.transform?.enable}`);
+                console.log(`      - renderNode.enable: ${renderNode.enable}`);
+                console.log(`      - preInit ready: ${renderNode['_passInit']?.has(this._rendererType)}`);
                 if (!renderNode.transform.enable)
                     continue;
                 if (!renderNode.enable)

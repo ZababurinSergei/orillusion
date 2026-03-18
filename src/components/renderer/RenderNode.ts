@@ -368,6 +368,12 @@ export class RenderNode extends ComponentBase {
     }
 
     public renderPass(view: View3D, passType: PassType, renderContext: RenderContext) {
+        console.log('/orillusion/src/components/renderer/RenderNode.ts')
+        console.log(`🎬 [RenderNode: ${this.name || this.instanceID}] renderPass() called. PassType: ${passType}`);
+        console.log(`   - Is destroyed: ${this.isDestroyed}`);
+        console.log(`   - Transform enabled: ${this.transform?.enable}`);
+        console.log(`   - Component enable: ${this.enable}`);
+        console.log(`   - Materials count: ${this.materials?.length}`);
         if (!this._geometry)
             return;
         let renderNode = this;
@@ -487,6 +493,14 @@ export class RenderNode extends ComponentBase {
     }
 
     public recordRenderPass2(view: View3D, passType: PassType, rendererPassState: RendererPassState, clusterLightingBuffer: ClusterLightingBuffer, encoder: GPURenderPassEncoder, useBundle: boolean = false) {
+        if (passType === PassType.COLOR) {
+            console.log('/orillusion/src/components/renderer/RenderNode.ts')
+            console.log(`🎬 [${this.vsName}|${this.fsName}] renderPass2() called. PassType: ${passType}`);
+            console.log(`   - Pipeline exists: ${!!this.pipeline}`);
+            console.log(`   - encoder exists: ${!!encoder}`);
+            console.log(`   - geometry exists: ${view?.scene ? 'yes' : 'no'}`); // Проверка косвенная
+            console.log(`   - view.camera exists: ${!!view?.camera}`);
+        }
         if (!this.enable) return;
         // this.nodeUpdate(view, passType, rendererPassState, clusterLightingBuffer);
 
@@ -520,6 +534,16 @@ export class RenderNode extends ComponentBase {
     }
 
     preInit(_rendererType: PassType): boolean {
+        if (_rendererType === PassType.COLOR) {
+            console.log(`🔧 [RenderNode: ${this.name || this.instanceID}] preInit() called. PassType: ${_rendererType}`);
+            console.log(`   - Has geometry: ${!!this.geometry}`);
+            console.log(`   - Has materials: ${!!this.materials?.[0]}`);
+            if (this.materials?.[0]?.shader) {
+                const shaderPass = this.materials[0].shader.getDefaultColorShader();
+                console.log(`   - Shader pipeline ready: ${!!shaderPass?.pipeline}`);
+                console.log(`   - Shader variant: ${shaderPass?.shaderVariant?.substring(0, 100)}...`);
+            }
+        }
         return this._passInit.get(_rendererType);
     }
 
